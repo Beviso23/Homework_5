@@ -1,0 +1,23 @@
+---
+title: "Homework_5"
+author: "Owen Bevis"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+### Load libraries
+```{r}
+library(tidyverse)
+library(tigris)
+library(viridis)
+```
+
+### Load data
+```{r}
+homicides <- read_csv("data/homicide-data.csv")
+```
+
