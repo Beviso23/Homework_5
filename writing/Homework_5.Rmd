@@ -24,7 +24,9 @@ homicides <- read_csv("../data/homicide-data.csv") %>%
 
 ### Use Tigris to download sub-city information as sf objects.
 ```{r}
-L_tracts <- tracts(state = "KY", county = "Jefferson", class = "sf")
+L_tracts <- tracts(state = "KY", 
+                   county = "Jefferson", 
+                   class = "sf")
 
 L_block_groups <- block_groups(state = "KY", 
                                county = "Jefferson", 
@@ -33,5 +35,15 @@ L_block_groups <- block_groups(state = "KY",
 L_county_sub <- county_subdivisions(state = "KY", 
                                     county = "Jefferson", 
                                     class = "sf")
+```
+### Add homicides data to each sf object
+```{r}
+
+```
+
+
+### Create the plot
+```{r}
+
 ```
 
