@@ -16,8 +16,22 @@ library(tigris)
 library(viridis)
 ```
 
-### Load data
+### Load data and pick city
 ```{r}
-homicides <- read_csv("data/homicide-data.csv")
+homicides <- read_csv("../data/homicide-data.csv") %>% 
+  filter(city == "Louisville")
+```
+
+### Use Tigris to download sub-city information as sf objects.
+```{r}
+L_tracts <- tracts(state = "KY", county = "Jefferson", class = "sf")
+
+L_block_groups <- block_groups(state = "KY", 
+                               county = "Jefferson", 
+                               class = "sf")
+
+L_county_sub <- county_subdivisions(state = "KY", 
+                                    county = "Jefferson", 
+                                    class = "sf")
 ```
 
