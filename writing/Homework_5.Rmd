@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```{r}
 library(tidyverse)
 library(tigris)
+library(sf)
 library(viridis)
 library(forcats)
 ```
@@ -36,6 +37,8 @@ L_block_groups <- block_groups(state = "KY",
 L_county_sub <- county_subdivisions(state = "KY", 
                                     county = "Jefferson", 
                                     class = "sf")
+
+head(L_tracts)
 ```
 
 ### Reorder homicides data 
@@ -50,9 +53,9 @@ homicides <- homicides %>%
 ### Create the plot
 ```{r}
 ggplot() +
-  geom_sf(data = L_tracts) +
-  geom_sf(data = L_block_groups) +
-  geom_sf(data = L_county_sub) +
+  geom_sf(data = L_county_sub, color = "black") +
+  #geom_sf(data = L_tracts, color = "black") +
+  geom_sf(data = L_block_groups, color = "red") +
   geom_point(data = homicides, 
              aes(x = lon, y = lat, color = victim_race), 
              alpha = 0.3) +
@@ -60,5 +63,50 @@ ggplot() +
   theme(legend.position = "top") +
   facet_wrap(~ disposition) +
   theme_dark()
+```
+
+
+
+
+```{r testing}
+# Download tract data for California
+tracts <- tracts(state = "CA", cb = TRUE, year = 2020) %>%
+  st_as_sf()  # Convert to an sf object for ggplot compatibility
+
+# Dummy data for population density (replace this with real data if available)
+set.seed(123)
+pop_density_data <- data.frame(
+  GEOID = tracts$GEOID,
+  pop_density = runif(n = nrow(tracts), min = 100, max = 5000)  # Random values for illustration
+)
+
+# Join the population density data to the tracts data
+tracts <- tracts %>%
+  left_join(pop_density_data, by = "GEOID")
+
+# Plotting the tracts with ggplot
+ggplot(data = tracts) +
+  geom_sf(aes(fill = pop_density), color = "white", size = 0.1) +
+  scale_fill_viridis_c(option = "magma", trans = "log", name = "Population Density") +
+  labs(
+    title = "Census Tracts in California",
+    subtitle = "Colored by Population Density",
+    caption = "Data from tigris package, Population Density simulated"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+
+```{r testing2}
+library(leaflet)
+
+tarrant <- tracts("TX", "Tarrant", cb = TRUE)
+
+leaflet(tarrant) %>%
+  addTiles() %>%
+  addPolygons(popup = ~NAME)
 ```
 
