@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(tigris)
 library(viridis)
+library(forcats)
 ```
 
 ### Load data and pick city
@@ -36,14 +37,28 @@ L_county_sub <- county_subdivisions(state = "KY",
                                     county = "Jefferson", 
                                     class = "sf")
 ```
-### Add homicides data to each sf object
-```{r}
 
+### Reorder homicides data 
+```{r}
+homicides <- homicides %>% 
+  mutate(victim_race = factor(victim_race, 
+                              levels = c("White", "Black", "Hispanic", "Asian", "Other"))) %>% 
+  mutate(victim_race = fct_lump_n(victim_race, n = 3))
 ```
 
 
 ### Create the plot
 ```{r}
-
+ggplot() +
+  geom_sf(data = L_tracts) +
+  geom_sf(data = L_block_groups) +
+  geom_sf(data = L_county_sub) +
+  geom_point(data = homicides, 
+             aes(x = lon, y = lat, color = victim_race), 
+             alpha = 0.3) +
+  #scale_color_viridis(name = "test") +
+  theme(legend.position = "top") +
+  facet_wrap(~ disposition) +
+  theme_dark()
 ```
 
