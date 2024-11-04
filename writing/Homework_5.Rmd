@@ -63,7 +63,8 @@ ggplot() +
   scale_color_manual(values = c("White" = "purple1",
                                 "Black" = "orange1",
                                 "Hispanic" = "steelblue3",
-                                "Other" = "seagreen4")) +
+                                "Other" = "seagreen4"),
+                     name = "victim race") +
   facet_wrap(~ disposition) +
   theme_few() +
   theme(legend.position = "top") +
@@ -72,4 +73,3 @@ ggplot() +
   ggtitle("Map of homicides in Louisville, KY",
           subtitle = "grouped by case status and showing the top 3 races")
 ```
-
