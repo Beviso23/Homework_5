@@ -11,12 +11,10 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ### Load libraries
 ```{r}
-library(tidyverse)
-library(ggthemes())
-library(tigris)
-library(sf)
-library(viridis)
-library(forcats)
+library("tidyverse")
+library("ggthemes")
+library("tigris")
+library("forcats")
 ```
 
 ### Load data and pick city
@@ -30,6 +28,7 @@ homicides <- read_csv("../data/homicide-data.csv") %>%
 L_block_groups <- block_groups(state = "KY", 
                                county = "Jefferson", 
                                class = "sf")
+
 L_county_sub <- county_subdivisions(state = "KY", 
                                     county = "Jefferson", 
                                     class = "sf")
