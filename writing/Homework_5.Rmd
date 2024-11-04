@@ -54,16 +54,16 @@ homicides <- homicides %>%
 ### Create the plot
 ```{r}
 ggplot() +
-  geom_sf(data = L_tracts, color = "green", fill = NA) +
-  geom_sf(data = L_block_groups, color = "red", fill = NA) +
+  geom_sf(data = L_tracts, color = "snow1", fill = NA) +
+  geom_sf(data = L_block_groups, color = "snow3", fill = NA) +
   geom_sf(data = L_county_sub, color = "black", fill = NA) +
   geom_point(data = homicides, 
              aes(x = lon, y = lat, color = victim_race), 
              alpha = 0.5) +
-  scale_color_manual(values = c("White" = "purple",
-                                "Black" = "orange",
-                                "Hispanic" = "steelblue",
-                                "Other" = "red3")) +
+  scale_color_manual(values = c("White" = "purple1",
+                                "Black" = "orange1",
+                                "Hispanic" = "steelblue3",
+                                "Other" = "seagreen4")) +
   facet_wrap(~ disposition) +
   theme_few() +
   theme(legend.position = "top") +
